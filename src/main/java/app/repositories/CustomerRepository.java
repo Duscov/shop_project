@@ -1,15 +1,18 @@
 package app.repositories;
 
-import app.domain.Product;
+import app.domain.Customer;
 
 import java.util.List;
 
 public interface CustomerRepository {
 
-    Product save(Product product);
+    Customer save(Customer customer);
 
-    List<Product> getAll();
+    List<Customer> findAll();
 
-    List<Product> getById(Long id);
-    //TODO
+    Customer findById(Long id);
+
+    Customer update(Customer customer);
+
+    boolean deleteById(Long id);
 }

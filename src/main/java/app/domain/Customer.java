@@ -6,14 +6,18 @@ import java.util.Objects;
 
 // POJO - Plain Old Java Object
 public class Customer {
-    private final Long id;
+    private Long id;
     private boolean isActive;
     private String name;
     private final List<Product> products = new ArrayList<>();
 
-    public Customer(Long id, boolean isActive, String name) {
+    public Customer(boolean isActive, String name) {
         this.name = name;
         this.isActive = isActive;
+
+    }
+
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -63,4 +67,5 @@ public class Customer {
         sb.append('}');
         return sb.toString();
     }
+
 }
