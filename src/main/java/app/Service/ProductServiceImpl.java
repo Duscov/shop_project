@@ -5,12 +5,11 @@ import app.exceptions.ProductNotFoundException;
 import app.exceptions.ProductSaveException;
 import app.exceptions.ProductUpdateException;
 import app.repositories.ProductRepository;
-import app.repositories.ProductRepositoryMap;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository repository;
 
@@ -20,14 +19,18 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Product save(Product product) {
-        if (product == null) throw new ProductSaveException("Product can´t be null");
+        if (product == null) {
+            throw new ProductSaveException("Product cannot be null");
+        }
 
         String name = product.getName();
-        if (name == null || name.trim().isEmpty() || name.length() <3) {
+        if (name == null || name.trim().isEmpty() || name.length() < 3) {
             throw new ProductSaveException("Product name should be at least 3 characters long");
         }
 
-        if (product.getPrice() <= 0) throw new ProductSaveException("Product price can't be zero or negative");
+        if (product.getPrice() <= 0) {
+            throw new ProductSaveException("Product price cannot be negative and zero");
+        }
 
         product.setActive(true);
         return repository.save(product);
@@ -35,32 +38,42 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public List<Product> getAllActiveProducts() {
-        return repository.findAll().stream().filter(x->x.isActive()).collect(Collectors.toList());
+        return repository.findAll().stream()
+                .filter(x -> x.isActive())
+                .collect(Collectors.toList());
     }
 
     @Override
     public Product getById(Long id) {
         Product product = repository.findById(id);
-        if(product == null || !product.isActive()) throw new ProductNotFoundException("Product with id" + id + "not found");
+
+        if (product == null || !product.isActive()) {
+            throw new ProductNotFoundException("Product with id = " + id + " not found");
+        }
         return product;
     }
 
     @Override
     public void update(Product product) {
-        if (product == null) throw new ProductUpdateException("Product can't be null");
-
-        Long id = product.getId();
-        if(id == null || id < 0) throw new ProductUpdateException("Product can't be negative or zero");
-
-        String name = product.getName();
-        if (name == null || name.trim().isEmpty() || name.length() <3) {
-            throw new ProductSaveException("Product name should be at least 3 characters long");
+        if (product == null) {
+            throw new ProductUpdateException("Product cannot be null");
         }
 
-        if (product.getPrice() <= 0) throw new ProductSaveException("Product price can't be zero or negative");
+        Long id = product.getId();
+        if (id == null || id < 0) {
+            throw new ProductUpdateException("Product id should be positive");
+        }
+
+        String name = product.getName();
+        if (name == null || name.trim().isEmpty() || name.length() < 3) {
+            throw new ProductUpdateException("Product name should be at least 3 characters long");
+        }
+
+        if (product.getPrice() <= 0) {
+            throw new ProductUpdateException("Product price cannot be negative and zero");
+        }
 
         repository.updateById(product);
-
     }
 
     @Override
@@ -72,17 +85,24 @@ public class ProductServiceImpl implements ProductService{
     public void deleteByName(String name) {
         Product product = getAllActiveProducts()
                 .stream()
-                .filter(f->f.getName().equals(name))
+                .filter(p -> p.getName().equals(name))
                 .findFirst()
                 .orElse(null);
 
-        if(product == null) throw new ProductNotFoundException("Product with name" + name + "not found");
+        if (product == null) {
+            throw new ProductNotFoundException("Product with name = " + name + " nor found");
+        }
         product.setActive(false);
     }
 
     @Override
     public void restoreById(Long id) {
-        getById(id).setActive(true);
+        Product product = repository.findById(id);
+
+        if (product == null) {
+            throw new ProductNotFoundException("Product with id = " + id + " not found");
+        }
+        product.setActive(true);
     }
 
     @Override
@@ -93,14 +113,14 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public double getActiveProductsTotalCost() {
         return getAllActiveProducts().stream()
-                .mapToDouble(p->p.getPrice())
+                .mapToDouble(p -> p.getPrice())
                 .sum();
     }
 
     @Override
     public double getActiveProductsAveragePrice() {
         return getAllActiveProducts().stream()
-                .mapToDouble(p->p.getPrice())
+                .mapToDouble(p -> p.getPrice())
                 .average()
                 .orElse(0);
     }

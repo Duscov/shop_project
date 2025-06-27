@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomerRepositoryMap implements CustomerRepository{
+public class CustomerRepositoryMap implements CustomerRepository {
+
     private Map<Long, Customer> database = new HashMap<>();
     private long currentId = 0;
-
 
     @Override
     public Customer save(Customer customer) {
@@ -37,10 +37,10 @@ public class CustomerRepositoryMap implements CustomerRepository{
 
         Customer oldProduct = findById(id);
 
-        if(oldProduct != null) {
+        if (oldProduct != null) {
             oldProduct.setName(newName);
-
         }
+
         return oldProduct;
     }
 
@@ -48,7 +48,7 @@ public class CustomerRepositoryMap implements CustomerRepository{
     public boolean deleteById(Long id) {
         Customer oldProduct = findById(id);
 
-        if(oldProduct == null) {
+        if (oldProduct == null) {
             return false;
         }
         oldProduct.setActive(false);

@@ -1,21 +1,20 @@
 package Client;
 
-import app.Service.ProductService;
-import app.Service.ProductServiceImpl;
 import app.controller.ProductController;
 import app.domain.Product;
 import app.repositories.ProductRepository;
 import app.repositories.ProductRepositoryMap;
+import app.Service.ProductService;
+import app.Service.ProductServiceImpl;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class Client {
+
     private static Scanner scanner;
     private static ProductController productController;
 
     public static void main(String[] args) {
-
         ProductRepository productRepository = new ProductRepositoryMap();
 
         ProductService productService = new ProductServiceImpl(productRepository);
@@ -24,45 +23,46 @@ public class Client {
 
         scanner = new Scanner(System.in);
 
-        while (true)
-            try{
+        while (true) {
+            try {
                 System.out.println("Выберите действие: ");
-                System.out.println("1.Операция с продуктами");
-                System.out.println("2.Операция с покупателями");
-                System.out.println("0.Выход из приложения");
+                System.out.println("1. Операции с продуктами");
+                System.out.println("2. Операции с покупателями");
+                System.out.println("0. Выход");
                 System.out.println("Ваш выбор: ");
 
                 int choice = Integer.parseInt(scanner.nextLine());
-                switch (choice){
-                    case 1: productOperatios();
-                    break;
-                    case 2: customerOperatios();
+                switch (choice) {
+                    case 1:
+                        productOperations();
+                        break;
+                    case 2:
+                        customerOperations();
                         break;
                     case 0:
-                        break;
-                    default: System.err.println("Некорректный ввод");
+                        return;
+                    default:
+                        System.err.println("Некорректный ввод");
                         break;
                 }
 
             } catch (Exception e) {
                 System.err.println(e.getMessage());
             }
+        }
     }
 
-    private static void customerOperatios() {
-    }
-
-    private static void productOperatios() {
-        while(true){
+    private static void productOperations() {
+        while (true) {
             try {
-                System.out.println("Выберите действие с продуктом: ");
+                System.out.println("Выберете действие с продуктом: ");
                 System.out.println("1. Сохранение продукта");
                 System.out.println("2. Получение всех активных продуктов");
-                System.out.println("3. Получение одного продукта по id");
-                System.out.println("4. Изменение одного продукта по id");
-                System.out.println("5. Удаление одного продукта по id");
+                System.out.println("3. Получение одного продукта по ID");
+                System.out.println("4. Изменение одного продукта");
+                System.out.println("5. Удаление одного продукта по ID");
                 System.out.println("6. Удаление одного продукта по наименованию");
-                System.out.println("7. Восстановление одного продукта по id");
+                System.out.println("7. Восстановление одного продукта по ID");
                 System.out.println("8. Получение количества продуктов");
                 System.out.println("9. Получение общей стоимости продуктов");
                 System.out.println("10. Получение средней стоимости продуктов");
@@ -135,9 +135,13 @@ public class Client {
                         System.err.println("Некорректный ввод");
                         break;
                 }
-                } catch (NumberFormatException e) {
-                throw new RuntimeException(e);
+
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
             }
         }
+    }
+
+    private static void customerOperations() {
     }
 }

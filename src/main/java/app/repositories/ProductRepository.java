@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ProductRepository {
 
-    Product save(Product product);
-
     //CRUD - Create, Read, Update, Delete
+
+    Product save(Product product);
 
     List<Product> findAll();
 
@@ -17,6 +17,4 @@ public interface ProductRepository {
     boolean deleteById(Long id);
 
     Product updateById(Product product);
-
-
 }

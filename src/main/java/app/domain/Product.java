@@ -14,13 +14,13 @@ public class Product {
         this.price = price;
     }
 
-    public Product(String name, double price) {
+    public Product(Long id, String name, double price) {
+        this.id = id;
         this.name = name;
         this.price = price;
     }
 
-    public Product(Long id, String name, double price) {
-        this.id = id;
+    public Product(String name, double price) {
         this.name = name;
         this.price = price;
     }
@@ -59,7 +59,7 @@ public class Product {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Product)) return false;
         Product product = (Product) o;
         return isActive == product.isActive && Double.compare(price, product.price) == 0 && Objects.equals(id, product.id) && Objects.equals(name, product.name);
     }

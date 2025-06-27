@@ -1,9 +1,7 @@
 package app.controller;
 
-import app.Service.ProductService;
 import app.domain.Product;
-import app.exceptions.ProductUpdateException;
-
+import app.Service.ProductService;
 
 import java.util.List;
 
@@ -14,7 +12,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    public Product save(String name, double price){
+    public Product save(String name, double price) {
         Product product = new Product(name, price);
         return productService.save(product);
     }
@@ -23,16 +21,16 @@ public class ProductController {
         return productService.getAllActiveProducts();
     }
 
-    public Product getById(Long id){
+    public Product getById(Long id) {
         return productService.getById(id);
     }
 
-    public void update(Long id, String name, double price){
+    public void update(Long id, String name, double price) {
         Product product = new Product(id, name, price);
         productService.update(product);
     }
 
-    public void deleteById(Long id){
+    public void deleteById(Long id) {
         productService.deleteById(id);
     }
 
@@ -55,5 +53,4 @@ public class ProductController {
     public double getActiveProductsAveragePrice() {
         return productService.getActiveProductsAveragePrice();
     }
-
 }
